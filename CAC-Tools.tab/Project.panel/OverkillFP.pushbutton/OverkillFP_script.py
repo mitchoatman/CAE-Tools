@@ -55,9 +55,9 @@ if duplicates:
     forms.toast(
         (len(duplicates)),
         title="Duplicates",
-        appid="Murray Tools",
-        icon="C:\Egnyte\Shared\BIM\Murray CADetailing Dept\REVIT\MURRAY RIBBON\Murray.extension\Murray.ico",
-        click="https://murraycompany.com",)
+        appid="CAC Tools",
+        icon="",
+        click="",)
     forms.alert_ifnot(duplicates < 0,
                       'Delete Duplicates?',
                       yes=True, no=True, exitscript=True)
@@ -73,8 +73,8 @@ else:
     forms.toast(
         'No Duplicates Found',
         title="Duplicates",
-        appid="Murray Tools",
-        icon="C:\Egnyte\Shared\BIM\Murray CADetailing Dept\REVIT\MURRAY RIBBON\Murray.extension\Murray.ico",
-        click="https://murraycompany.com",)
+        appid="CAC Tools",
+        icon="",
+        click="",)
 
 

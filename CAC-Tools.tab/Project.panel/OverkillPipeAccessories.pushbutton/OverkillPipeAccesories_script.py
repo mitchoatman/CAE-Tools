@@ -11,8 +11,8 @@ def GetCenterPoint(ele):
     center = (bBox.Max + bBox.Min) / 2
     return (center.X, center.Y, center.Z)
 
-# Create a FilteredElementCollector to get all FabricationPart elements
-AllElements = FilteredElementCollector(doc, curview.Id).OfClass(FabricationPart) \
+# Create a FilteredElementCollector to get all PipeAccessory elements
+AllElements = FilteredElementCollector(doc, curview.Id).OfCategory(BuiltInCategory.OST_PipeAccessory)\
                    .WhereElementIsNotElementType() \
                    .ToElements()
 # Get the center point of each selected element

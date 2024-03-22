@@ -12,7 +12,6 @@ tooltip: |-
   3. Elements will be selected.
   4. Do what you will with selected elements...
 
-  Hold [SHIFT] to Select parts in ENTIRE MODEL.
 
 # context directives are listed under `context` key, the order does not matter
 #context:

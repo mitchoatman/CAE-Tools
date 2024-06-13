@@ -22,6 +22,7 @@ servicetypenamelist = []
 CIDlist = []
 Namelist = []
 SNamelist = []
+Family = []
 SNameABBRlist = []
 Sizelist = []
 ValveNumlist = []
@@ -81,6 +82,7 @@ if preselection:
     CID_set = set(CIDlist)
     service_type_set = set(servicetypenamelist)
     Name_set = set(Namelist)
+    Family = set(Familylist)
     SNamelist_set = set(SNamelist)
     SNameABBRlist_set = set(SNameABBRlist)
     LineNumlist_set = set(LineNumlist)
@@ -97,6 +99,7 @@ if preselection:
         GroupOptions = {'CID': sorted(CID_set),
             'ServiceType': sorted(service_type_set),
             'Name': sorted(Name_set),
+            'Family': sorted(Family_set),
             'Service Name': sorted(SNamelist_set),
             'Service Abbreviation': sorted(SNameABBRlist_set),
             'Size': sorted(set(Sizelist)),
@@ -201,6 +204,7 @@ else:
         # Creating dictionaries for faster lookup
         CID_set = set(CIDlist)
         service_type_set = set(servicetypenamelist)
+        Family_set = set(Familylist)
         Name_set = set(Namelist)
         SNamelist_set = set(SNamelist)
         SNameABBRlist_set = set(SNameABBRlist)

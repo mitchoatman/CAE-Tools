@@ -11,10 +11,20 @@ for c in AllWorksets:
 	WorksetNames.append(c.Name)
 
 WorksetToAdd = []
-WorksetToAdd.append('LINK - ARCH')
-WorksetToAdd.append('LINK - STRUCT')
-WorksetToAdd.append('LINK - MEP')
-WorksetToAdd.append('POINTLAYOUT')
+WorksetToAdd.append('CAE_Detailing')
+WorksetToAdd.append('Shared Views, levels, Grids')
+WorksetToAdd.append('zArch')
+WorksetToAdd.append('zMech')
+WorksetToAdd.append('zStruct')
+WorksetToAdd.append('zElec')
+WorksetToAdd.append('zMP')
+WorksetToAdd.append('zSprinkler')
+WorksetToAdd.append('zFraming')
+WorksetToAdd.append('zPtube')
+WorksetToAdd.append('zPlumbing')
+WorksetToAdd.append('CAE_Precon')
+WorksetToAdd.append('CAE_Precon_Handoff')
+WorksetToAdd.append('CAE_Precon_Equipment')
 
 worksetaddedlist = []
 

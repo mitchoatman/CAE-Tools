@@ -1,0 +1,9 @@
+layout:
+  - Copy_VG_Filters
+  - CreateViewFilters
+
+
+background:
+  title: 'D5D5CD'
+#  panel: '#ffe716'
+#  slideout: '#ffe716'

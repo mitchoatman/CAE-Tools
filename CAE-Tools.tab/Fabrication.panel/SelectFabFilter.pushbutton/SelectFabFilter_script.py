@@ -23,11 +23,9 @@ CIDlist = []
 Namelist = []
 SNamelist = []
 SNameABBRlist = []
-STRATUSAssemlist = []
 Sizelist = []
 ValveNumlist = []
 LineNumlist = []
-STRATUSStatuslist = []
 RefLevelList = []
 ItemNumList = []
 BundleList = []
@@ -55,10 +53,6 @@ if preselection:
                 SNamelist.append(get_parameter_value_by_name_AsString(x, 'Fabrication Service Name'))
 
                 SNameABBRlist.append(get_parameter_value_by_name_AsString(x, 'Fabrication Service Abbreviation'))
-
-                STRATUSAssemlist.append(get_parameter_value_by_name_AsString(x, 'STRATUS Assembly'))
-
-                STRATUSStatuslist.append(get_parameter_value_by_name_AsString(x, 'STRATUS Status'))
 
                 ValveNumlist.append(get_parameter_value_by_name_AsString(x, 'FP_Valve Number'))
 
@@ -89,9 +83,7 @@ if preselection:
     Name_set = set(Namelist)
     SNamelist_set = set(SNamelist)
     SNameABBRlist_set = set(SNameABBRlist)
-    STRATUSAssemlist_set = set(STRATUSAssemlist)
     LineNumlist_set = set(LineNumlist)
-    STRATUSStatuslist_set = set(STRATUSStatuslist)
     RefLevelList_set = set(RefLevelList)
     ItemNumList_set = set(ItemNumList)
     BundleList_set = set(BundleList)
@@ -108,9 +100,7 @@ if preselection:
             'Service Name': sorted(SNamelist_set),
             'Service Abbreviation': sorted(SNameABBRlist_set),
             'Size': sorted(set(Sizelist)),
-            'STRATUS Assembly': sorted(STRATUSAssemlist_set),
             'Line Number': sorted(LineNumlist),
-            'STRATUS Status': sorted(STRATUSStatuslist_set),
             'Reference Level': sorted(RefLevelList_set),
             'Item Number': sorted(ItemNumList_set),
             'Bundle Number': sorted(BundleList_set),
@@ -138,12 +128,6 @@ if preselection:
                         elementlist.append(elem.Id)
                 if fil in SNameABBRlist_set:
                     if get_parameter_value_by_name_AsString(elem, 'Fabrication Service Abbreviation') == fil:
-                        elementlist.append(elem.Id)
-                if fil in STRATUSAssemlist_set:
-                    if get_parameter_value_by_name_AsString(elem, 'STRATUS Assembly') == fil:
-                        elementlist.append(elem.Id)
-                if fil in STRATUSStatuslist_set:
-                    if get_parameter_value_by_name_AsString(elem, 'STRATUS Status') == fil:
                         elementlist.append(elem.Id)
                 if fil in LineNumlist_set:
                     if get_parameter_value_by_name_AsString(elem, 'FP_Line Number') == fil:
@@ -195,8 +179,6 @@ else:
             Namelist = list(map(lambda x: get_parameter_value_by_name_AsValueString(x, 'Family'), part_collector))
             SNamelist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'Fabrication Service Name'), part_collector))
             SNameABBRlist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'Fabrication Service Abbreviation'), part_collector))
-            STRATUSAssemlist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'STRATUS Assembly'), part_collector))
-            STRATUSStatuslist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'STRATUS Status'), part_collector))
             ValveNumlist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'FP_Valve Number'), part_collector))
             servicetypenamelist = list(map(lambda x: Config.GetServiceTypeName(x.ServiceType), part_collector))
             LineNumlist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'FP_Line Number'), part_collector))
@@ -222,9 +204,7 @@ else:
         Name_set = set(Namelist)
         SNamelist_set = set(SNamelist)
         SNameABBRlist_set = set(SNameABBRlist)
-        STRATUSAssemlist_set = set(STRATUSAssemlist)
         LineNumlist_set = set(LineNumlist)
-        STRATUSStatuslist_set = set(STRATUSStatuslist)
         RefLevelList_set = set(RefLevelList)
         ItemNumList_set = set(ItemNumList)
         BundleList_set = set(BundleList)
@@ -241,9 +221,7 @@ else:
                 'Service Name': sorted(SNamelist_set),
                 'Service Abbreviation': sorted(SNameABBRlist_set),
                 'Size': sorted(Sizelist_set),
-                'STRATUS Assembly': sorted(STRATUSAssemlist_set),
                 'Line Number': sorted(LineNumlist_set),
-                'STRATUS Status': sorted(STRATUSStatuslist_set),
                 'Reference Level': sorted(RefLevelList_set),
                 'Item Number': sorted(ItemNumList_set),
                 'Bundle Number': sorted(BundleList_set),
@@ -271,12 +249,6 @@ else:
                             elementlist.append(elem.Id)
                     if fil in SNameABBRlist_set:
                         if get_parameter_value_by_name_AsString(elem, 'Fabrication Service Abbreviation') == fil:
-                            elementlist.append(elem.Id)
-                    if fil in STRATUSAssemlist_set:
-                        if get_parameter_value_by_name_AsString(elem, 'STRATUS Assembly') == fil:
-                            elementlist.append(elem.Id)
-                    if fil in STRATUSStatuslist_set:
-                        if get_parameter_value_by_name_AsString(elem, 'STRATUS Status') == fil:
                             elementlist.append(elem.Id)
                     if fil in LineNumlist_set:
                         if get_parameter_value_by_name_AsString(elem, 'FP_Line Number') == fil:

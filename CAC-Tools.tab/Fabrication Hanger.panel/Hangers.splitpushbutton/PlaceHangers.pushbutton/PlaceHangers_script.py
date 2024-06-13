@@ -82,14 +82,8 @@ try:
                     groupnamelist.append(FabricationService[Servicenum].GetGroupName(Item3))
 
     if 'SUPPORTS' in groupnamelist:
-        # Display dialog
-        components = [
-            Label('Choose Service Palette:'),
-            ComboBox('Servicegroupnum', groupnamelist, sort=False, default='SUPPORTS'),
-            Button('Ok')
-            ]
-        form = FlexForm('Group', components)
-        form.show()
+        SelectedServicegroupname = 'SUPPORTS'
+        Servicegroupnum = groupnamelist.index(SelectedServicegroupname)
     else:
         # Display dialog
         components = [
@@ -100,9 +94,9 @@ try:
         form = FlexForm('Group', components)
         form.show()
 
-    # Convert dialog input into variable
-    SelectedServicegroupname = (form.values['Servicegroupnum'])
-    Servicegroupnum = groupnamelist.index(SelectedServicegroupname)
+        # Convert else dialog input into variable
+        SelectedServicegroupname = (form.values['Servicegroupnum'])
+        Servicegroupnum = groupnamelist.index(SelectedServicegroupname)
 
     buttoncount = LoadedServices[Servicenum].GetButtonCount(Servicegroupnum)
 
@@ -125,9 +119,21 @@ try:
             line1 = (str(buttonnames[0]) + '\n')
             line2 = ('1' + '\n')
             line3 = '4'
-            the_file.writelines([line1, line2, line3])  
+            the_file.writelines([line1, line2, line3])
 
-        # read text file for stored values and show them in dialog
+    # read text file for stored values and show them in dialog
+    with open((filepath), 'r') as file:
+        lines = file.readlines()
+        lines = [line.rstrip() for line in lines]
+
+    if len(lines) < 3:
+        with open((filepath), 'w') as the_file:
+            line1 = (str(buttonnames[0]) + '\n')
+            line2 = ('1' + '\n')
+            line3 = '4'
+            the_file.writelines([line1, line2, line3])
+
+    # read text file for stored values and show them in dialog
     with open((filepath), 'r') as file:
         lines = file.readlines()
         lines = [line.rstrip() for line in lines]
@@ -202,7 +208,7 @@ try:
     t.Start()
 
     for e in Pipe:
-        if e.LookupParameter('Part Pattern Number').AsInteger() == 2041:
+        if e.LookupParameter('Part Pattern Number').AsInteger() in (2041, 866, 40):
             # get length of pipe
             pipelen = e.LookupParameter('Length').AsDouble()
             # test if pipe is long enough for hanger

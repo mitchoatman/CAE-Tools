@@ -22,7 +22,6 @@ servicetypenamelist = []
 CIDlist = []
 Namelist = []
 SNamelist = []
-Family = []
 SNameABBRlist = []
 Sizelist = []
 ValveNumlist = []
@@ -48,8 +47,6 @@ if preselection:
                 servicetypenamelist.append(Config.GetServiceTypeName(x.ServiceType))
 
                 CIDlist.append(x.ItemCustomId)
-
-                Namelist.append(get_parameter_value_by_name_AsValueString(x, 'Family'))
 
                 SNamelist.append(get_parameter_value_by_name_AsString(x, 'Fabrication Service Name'))
 
@@ -82,7 +79,6 @@ if preselection:
     CID_set = set(CIDlist)
     service_type_set = set(servicetypenamelist)
     Name_set = set(Namelist)
-    Family = set(Familylist)
     SNamelist_set = set(SNamelist)
     SNameABBRlist_set = set(SNameABBRlist)
     LineNumlist_set = set(LineNumlist)
@@ -99,7 +95,6 @@ if preselection:
         GroupOptions = {'CID': sorted(CID_set),
             'ServiceType': sorted(service_type_set),
             'Name': sorted(Name_set),
-            'Family': sorted(Family_set),
             'Service Name': sorted(SNamelist_set),
             'Service Abbreviation': sorted(SNameABBRlist_set),
             'Size': sorted(set(Sizelist)),
@@ -122,9 +117,6 @@ if preselection:
                         elementlist.append(elem.Id)
                 if fil in service_type_set:
                     if Config.GetServiceTypeName(elem.ServiceType) == fil:
-                        elementlist.append(elem.Id)
-                if fil in Name_set:
-                    if get_parameter_value_by_name_AsValueString(elem, 'Family') == fil:
                         elementlist.append(elem.Id)
                 if fil in SNamelist_set:
                     if get_parameter_value_by_name_AsString(elem, 'Fabrication Service Name') == fil:
@@ -179,7 +171,6 @@ else:
     if part_collector:
         try:
             CIDlist = list(map(lambda x: get_parameter_value_by_name_AsInteger(x, 'Part Pattern Number'), part_collector))
-            Namelist = list(map(lambda x: get_parameter_value_by_name_AsValueString(x, 'Family'), part_collector))
             SNamelist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'Fabrication Service Name'), part_collector))
             SNameABBRlist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'Fabrication Service Abbreviation'), part_collector))
             ValveNumlist = list(map(lambda x: get_parameter_value_by_name_AsString(x, 'FP_Valve Number'), part_collector))
@@ -204,7 +195,6 @@ else:
         # Creating dictionaries for faster lookup
         CID_set = set(CIDlist)
         service_type_set = set(servicetypenamelist)
-        Family_set = set(Familylist)
         Name_set = set(Namelist)
         SNamelist_set = set(SNamelist)
         SNameABBRlist_set = set(SNameABBRlist)
@@ -244,9 +234,6 @@ else:
                             elementlist.append(elem.Id)
                     if fil in service_type_set:
                         if Config.GetServiceTypeName(elem.ServiceType) == fil:
-                            elementlist.append(elem.Id)
-                    if fil in Name_set:
-                        if get_parameter_value_by_name_AsValueString(elem, 'Family') == fil:
                             elementlist.append(elem.Id)
                     if fil in SNamelist_set:
                         if get_parameter_value_by_name_AsString(elem, 'Fabrication Service Name') == fil:

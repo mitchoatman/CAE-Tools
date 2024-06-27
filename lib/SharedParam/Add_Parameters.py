@@ -8,7 +8,7 @@ app = doc.Application
 
 def Shared_Params():
     path, filename = os.path.split(__file__)
-    NewFilename = '\MC Shared Parameters.txt'
+    NewFilename = '\CAE Corporate Shared Parameters.txt'
 
     sel = uidoc.Selection
     cat1 = doc.Settings.Categories.get_Item(BuiltInCategory.OST_FabricationPipework)

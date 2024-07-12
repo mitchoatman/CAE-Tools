@@ -12,8 +12,5 @@ tooltip: >-
 context:
   - doc-workshared
 
-# bundle help url
-#help_url: "https://www.youtube.com/watch?v=H7b8hjHbauE&t=8s&list=PLc_1PNcpnV57FWI6G8Cd09umHpSOzvamf"
-
 # bundle author
 author: Kenneth Boentoro

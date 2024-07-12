@@ -17,8 +17,5 @@ tooltip: |-
 #context:
 #  - Selection
 
-# bundle help url
-# help_url: "https://youtu.be/ahVfaciq1wg"
-
 # bundle author
 author: Kenneth Boentoro

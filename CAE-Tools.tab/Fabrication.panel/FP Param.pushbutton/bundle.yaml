@@ -1,4 +1,4 @@
-highlight: updated
+#highlight: updated
 title:
   "Sync Fab Part\nParameters"
 
@@ -12,6 +12,3 @@ tooltip: |-
 # context directives are listed under `context` key, the order does not matter
 #context:
 #  - Selection
-
-# bundle author
-author: Kenneth Boentoro

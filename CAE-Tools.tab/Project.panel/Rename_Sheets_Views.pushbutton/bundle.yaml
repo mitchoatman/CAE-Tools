@@ -1,4 +1,4 @@
-highlight: new
+#highlight: new
 #highlight: updated
 
 # bundle title
@@ -17,6 +17,3 @@ tooltip: >-
 #context:
 #  - Walls
 #  - Text Notes
-
-# bundle author
-author: Kenneth Boentoro

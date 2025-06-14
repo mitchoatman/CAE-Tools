@@ -1,4 +1,4 @@
-#highlight: new
+# highlight: new
 #highlight: updated
 
 # bundle title
@@ -8,10 +8,10 @@ title:
 # bundle tooltip
 tooltip: |-
   Search for duplicate fabrication parts in ACTIVE VIEW that occupy the same physical space.
-      1. Run script.
+      1. Run Command.
       2. If duplicates are found confirm you wish to delete with Yes or No.
 
-  [Shift]-Click:
+  [Shift]+Click:
   Search for duplicate fabrication parts in the ENTIRE model.
 
 # context directives are listed under `context` key, the order does not matter
@@ -21,3 +21,6 @@ tooltip: |-
 
 # bundle help url
 #help_url: "https://www.youtube.com/watch?v=H7b8hjHbauE&t=8s&list=PLc_1PNcpnV57FWI6G8Cd09umHpSOzvamf"
+
+# bundle author
+author: Mitchell Oatman

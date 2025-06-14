@@ -1,9 +1,7 @@
 layout:
   - FP Param
-  - HideService
-  - IsolateService
-  - ResetView
-  - SelectFabFilter
+  - Hide-IsolateService
+  - SelectFilter
 
 
 background:

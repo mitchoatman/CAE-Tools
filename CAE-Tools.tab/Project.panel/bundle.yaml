@@ -1,7 +1,6 @@
 layout:
   - Exports
-  - CreateSheets
-  - Rename_Sheets_Views
+  - Views and Sheets
   - OverkillFP
   - OverkillFamilies
 

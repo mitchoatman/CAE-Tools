@@ -1,39 +1,110 @@
-import Autodesk
-from Autodesk.Revit import DB
-from Autodesk.Revit.DB import Transaction, FilteredElementCollector, BuiltInCategory, BuiltInParameter
-from pyrevit import revit, DB, UI
+# -*- coding: utf-8 -*-
+import clr
 
+from Autodesk.Revit.DB import (
+    FilteredElementCollector, BuiltInCategory, BuiltInParameter,
+    ElementParameterFilter, FilterStringRule, ParameterValueProvider, FilterStringBeginsWith,
+    ElementId
+)
+from Autodesk.Revit.UI import TaskDialog
 
-#define the active Revit application and document
-DB = Autodesk.Revit.DB
-doc = __revit__.ActiveUIDocument.Document
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+from System.Windows.Forms import Application, Form, ListBox, Label, FormStartPosition, FormBorderStyle
+from System.Drawing import Point, Size
+from System.Collections.Generic import List
+
 uidoc = __revit__.ActiveUIDocument
+doc = uidoc.Document
 curview = doc.ActiveView
-fec = FilteredElementCollector
 app = doc.Application
-RevitVersion = app.VersionNumber
-RevitINT = float (RevitVersion)
+RevitVersion = float(app.VersionNumber)
 
-selection = revit.get_selection()
+# --- External param utility function ---
+def get_parameter_value_by_name_AsValueString(elem, param_name):
+    param = elem.LookupParameter(param_name)
+    if param and param.HasValue:
+        return param.AsValueString() or param.AsString()
+    return ""
 
-# Creating collector instance and collecting all the fabrication hangers from the model
-pipe_collector = FilteredElementCollector(doc, curview.Id).OfCategory(BuiltInCategory.OST_FabricationPipework) \
-                   .WhereElementIsNotElementType() \
-                   .ToElements()
+# --- Filter for pipes with material "Carbon Steel:" ---
+param_id = ElementId(BuiltInParameter.FABRICATION_PART_MATERIAL)
+provider = ParameterValueProvider(param_id)
+evaluator = FilterStringBeginsWith()
+if RevitVersion <= 2021:
+    rule = FilterStringRule(provider, evaluator, "Carbon Steel:", True)
+else:
+    rule = FilterStringRule(provider, evaluator, "Carbon Steel:")
+material_filter = ElementParameterFilter(rule)
 
+pipe_collector = FilteredElementCollector(doc, curview.Id) \
+    .OfCategory(BuiltInCategory.OST_FabricationPipework) \
+    .WhereElementIsNotElementType() \
+    .WherePasses(material_filter) \
+    .ToElements()
 
-elementlist = []
-t = Transaction(doc, 'Select Pipes')
-#Start Transaction
-t.Start()
+# --- Collect matching elements ---
+pipe_data = []
 for pipe in pipe_collector:
-    CID = pipe.ItemCustomId
-    if CID == 2041:
-        pipelen = pipe.Parameter[BuiltInParameter.FABRICATION_PART_LENGTH].AsDouble()
-        pipemat = pipe.Parameter[BuiltInParameter.FABRICATION_PART_MATERIAL].AsValueString()  #Copper: Hard Copper  #Cast Iron: Cast Iron  #Carbon Steel: Carbon Steel
-        if pipelen > 20.0 and pipemat == 'Carbon Steel: Carbon Steel':
-            elementlist.append(pipe.Id)
-selection.set_to(elementlist)
-#End Transaction
-t.Commit()
+    try:
+        CID = pipe.ItemCustomId
+        if CID == 2041:
+            pipelen = pipe.get_Parameter(BuiltInParameter.FABRICATION_PART_LENGTH).AsDouble()
+            if pipelen > 20.0:
+                family_name = get_parameter_value_by_name_AsValueString(pipe, 'Family')
+                text = "{}: Length (ft): {:.2f}".format(family_name, pipelen)
+                pipe_data.append((text, pipe.Id))
+    except Exception as e:
+        print("Error with element: {}".format(e))
 
+# --- WinForm UI ---
+class PipeListForm(Form):
+    def __init__(self, pipe_data, doc, uidoc):
+        self.Text = "Filtered Carbon Steel Pipe List"
+        self.Size = Size(400, 400)
+        self.StartPosition = FormStartPosition.CenterScreen
+        self.TopMost = True
+        self.ShowIcon = False
+        self.MaximizeBox = False
+        self.MinimizeBox = False
+        self.FormBorderStyle = FormBorderStyle.FixedDialog
+        self.doc = doc  # Store doc
+        self.uidoc = uidoc  # Store uidoc
+
+        self.label = Label()
+        self.label.Text = "Double Click a pipe to zoom to it:"
+        self.label.Location = Point(10, 10)
+        self.label.Size = Size(380, 20)
+        self.Controls.Add(self.label)
+
+        self.listbox = ListBox()
+        self.listbox.Location = Point(10, 40)
+        self.listbox.Size = Size(365, 300)
+        for (text, eid) in pipe_data:
+            self.listbox.Items.Add(text)
+        self.Controls.Add(self.listbox)
+
+        # Store mapping of text to element ID
+        self.element_map = {text: eid for (text, eid) in pipe_data}
+        self.listbox.DoubleClick += self.select_element
+
+    def select_element(self, sender, args):
+        selected_text = self.listbox.SelectedItem
+        if selected_text:
+            eid = self.element_map[selected_text]
+            element = self.doc.GetElement(eid)
+            if element:
+                self.uidoc.Selection.SetElementIds(List[ElementId]([eid]))
+                self.uidoc.ShowElements(eid)
+                self.Close()  # Close the dialog after selecting and zooming
+            else:
+                TaskDialog.Show("Error", "Element not found.")
+
+# --- Show form or fallback message ---
+if pipe_data:
+    form = PipeListForm(pipe_data, doc, uidoc)
+    form.Show()  # Non-modal display
+    while form.Visible:
+        Application.DoEvents()
+else:
+    TaskDialog.Show("No Matches", "No long carbon steel pipes found.")

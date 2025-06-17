@@ -2,15 +2,18 @@
 
 # bundle title
 title:
-  "Create Default\nWorksets"
+  "Default\nWorksets"
 
 # bundle tooltip
 tooltip: >-
   Creates a default set of worksets in project.
 
 # context directives are listed under `context` key, the order does not matter
-context:
-  - doc-workshared
+# context:
+  # - doc-workshared
+
+
+#help_url: "https://www.youtube.com/watch?v=H7b8hjHbauE&t=8s&list=PLc_1PNcpnV57FWI6G8Cd09umHpSOzvamf"
 
 # bundle author
-author: Kenneth Boentoro
+author: Mitchell Oatman

@@ -2,16 +2,34 @@
 
 # bundle title
 title:
-  "Create\nFilters"
+  "Create Fab\nFilters"
 
 # bundle tooltip
-tooltip: >-
-  Creates view filters for fabrication services.
+tooltip: |-
+  Creates filters for visible Fabrication services in active view.
+  It will assign standard colors to know services.
+  Any unknow services will be assigned randomized colors.
+  
+  If you have a Fabrication element selected prior to executing it
+  will only make a filter for the service of the selected element.
+  
+  If your view has a view template assigned to it, the filters
+  will be added inside the template.
+  Since some filters will have randomized colors it may be
+  necessary to copy new filters to other view templates.
+
+  Use the separate "Copy VG Filters" button for that.
+
+  [Shift]+Click:    
+  Removes all view filters in the project. USE WITH CAUTION!
 
 # context directives are listed under `context` key, the order does not matter
 
 # context:
   # - doc-workshared
 
+# bundle help url
+#help_url: "https://www.youtube.com/watch?v=H7b8hjHbauE&t=8s&list=PLc_1PNcpnV57FWI6G8Cd09umHpSOzvamf"
+
 # bundle author
-author: Kenneth Boentoro
+author: Mitchell Oatman

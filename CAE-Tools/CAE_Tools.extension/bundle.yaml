@@ -1,10 +1,5 @@
 layout:
-  - Utilities
-  - Fabrication
-  - Fabrication Pipe
-  - Fabrication Hanger
-  - Project
-  - Admin
+  - CAE-Detailing Tools
 
 
 highlight: new      # highlight as new

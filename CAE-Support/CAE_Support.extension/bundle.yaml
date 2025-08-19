@@ -1,5 +1,5 @@
 layout:
-  - Project
+  - CAE-Detailing Tools
 
 
 highlight: new      # highlight as new
@@ -7,5 +7,4 @@ highlight: new      # highlight as new
 
 
 templates:
-  youtube: https://www.youtube.com/watch?v=
   author: Kenneth Boentoro

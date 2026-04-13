@@ -14,8 +14,8 @@ tooltip: |-
 #context:
 #  - Selection
 
-
+# bundle help url
 help_url: "https://youtu.be/2464K7fS2iY"
 
 # bundle author
-# author: Anonymous
+author: Anonymous

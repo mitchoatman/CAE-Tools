@@ -1,5 +1,5 @@
-from pyrevit import revit, DB, forms
 from Autodesk.Revit.DB import FilteredElementCollector, View
+from Autodesk.Revit.UI import TaskDialog
 import System
 import os
 import re
@@ -16,17 +16,12 @@ file_name = doc.Title
 open_views = [doc.GetElement(view.ViewId) for view in uidoc.GetOpenUIViews() if not doc.GetElement(view.ViewId).IsTemplate]
 
 if not open_views:
-    print('There are no open views.')
+    TaskDialog.Show("Warning", 'There are no open views.')
     sys.exit()
 
 if len(open_views) > 10:
-    forms.alert(msg='You have more than ten open views.',
-                title='Warning',
-                sub_msg='Opening this many open views at once may take some time. Do you still wish to save these settings?',
-                ok=False,
-                yes=True,
-                no=True,
-                exitscript=True)
+    TaskDialog.Show("Warning", "You have more than ten open views, Opening this many open views at once may take some time.")
+
 
 view_list = [view.Id for view in open_views]
 
@@ -44,6 +39,6 @@ with open(filepath, 'w') as the_file:
     line2 = str(view_list) + '\n'
     the_file.writelines([line1, line2])
 
-
+TaskDialog.Show("Status", "[{}] views have been saved.".format(len(view_list)))
 
 

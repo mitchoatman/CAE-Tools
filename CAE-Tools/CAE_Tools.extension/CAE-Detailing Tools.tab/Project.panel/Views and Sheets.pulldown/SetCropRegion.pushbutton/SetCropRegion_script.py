@@ -1,6 +1,7 @@
 import Autodesk
 from Autodesk.Revit.DB import FilteredElementCollector, BoundingBoxXYZ, XYZ, Transaction, Transform, BuiltInParameter
 from Autodesk.Revit.UI.Selection import PickBoxStyle
+from Autodesk.Revit.UI import TaskDialog
 
 # Define the active Revit document and view
 doc = __revit__.ActiveUIDocument.Document
@@ -54,4 +55,4 @@ if str(curview.ViewType) in ['FloorPlan', 'CeilingPlan']:
     curview.CropBoxVisible = True
     t.Commit()
 else:
-    print("Active view is not a Floor or Ceiling Plan view.")
+    TaskDialog.Show("Error", "Active view is not a Floor or Ceiling Plan view.")

@@ -39,13 +39,21 @@ def Shared_Params():
     
     family_mgr = doc.FamilyManager
     
-    # Define exact list of parameter names you want to load
-    target_parameters = [
-        "CAE_Global_Building_Area",
-        "CAE_Global_Building_Level",
-        "CAE_Global_Element_Service Type",
-        "CAE_Global_Pick"
-    ]
+    # Define exact groups and parameters to pull
+    target_groups = {
+        "CAE Global Parameters": [
+            "CAE_Global_Building_Area",
+            "CAE_Global_Building_Level",
+            "CAE_Global_Element_Service Type",
+            "CAE_Global_Pick"
+        ],
+        "CAE Annotation Parameters": [
+            "CAE_Annotation_Equipment_Number",
+            "CAE_Annotation_Equipment_Type",
+            "CAE_Annotation_Pipe Accessory_Number",
+            "CAE_Annotation_Pipe Accessory_Type"
+        ]
+    }
     
     def add_specific_family_parameters(group_name, group_type, allowed_names):
         for dG in spFile.Groups:

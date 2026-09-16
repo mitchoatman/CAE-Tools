@@ -1,5 +1,9 @@
 layout:
-  - CAE-Detailing Tools
+  - Utilities
+  - Project
+  - Fabrication
+  - Fabrication Pipe
+  - Fabrication Hanger
 
 
 highlight: new      # highlight as new
@@ -7,4 +11,5 @@ highlight: new      # highlight as new
 
 
 templates:
+  youtube: https://www.youtube.com/watch?v=
   author: Kenneth Boentoro

@@ -26,7 +26,7 @@ def Shared_Params():
         
     fullPath = dialog.FileName
     
-    t = Transaction(doc, 'Add Specific Type Parameters to Family')
+    t = Transaction(doc, 'Add Custom Type/Instance Parameters to Family')
     t.Start()
     
     app.SharedParametersFilename = fullPath
@@ -39,43 +39,46 @@ def Shared_Params():
     
     family_mgr = doc.FamilyManager
     
-    # Define exact groups and parameters to pull
-    target_groups = {
-        "CAE Global Parameters": [
-            "CAE_Global_Building_Area",
-            "CAE_Global_Building_Level",
-            "CAE_Global_Element_Service Type",
-            "CAE_Global_Pick"
-        ],
-        "CAE Annotation Parameters": [
-            "CAE_Annotation_Equipment_Number",
-            "CAE_Annotation_Equipment_Type",
-            "CAE_Annotation_Pipe Accessory_Number",
-            "CAE_Annotation_Pipe Accessory_Type"
-        ]
-    }
-    
-    def add_specific_family_parameters(group_name, group_type, allowed_names):
-        for dG in spFile.Groups:
-            if dG.Name == group_name:
-                for eD in dG.Definitions:
-                    if eD.Name in allowed_names:
-                        existing_param = family_mgr.get_Parameter(eD.Name)
-                        if not existing_param:
-                            # AddParameter(ExternalDefinition, ParameterGroup, isInstance) -> False for Type
-                            family_mgr.AddParameter(eD, group_type, False)
+    # Define exact parameters with their individual Group and Instance settings (True = Instance, False = Type)
+    parameters_to_add = [
+        {"name": "CAE_Global_Element_Service Type", "group": "CAE Global Parameters", "is_instance": False},
+        {"name": "CAE_Annotation_Equipment_Type", "group": "CAE Annotation Parameters", "is_instance": False},
+        {"name": "CAE_Annotation_Equipment_Number", "group": "CAE Annotation Parameters", "is_instance": True},
+        {"name": "CAE_Global_Building_Area", "group": "CAE Global Parameters", "is_instance": True},
+        {"name": "CAE_Global_Building_Level", "group": "CAE Global Parameters", "is_instance": True},
+        {"name": "CAE_Global_Pick", "group": "CAE Global Parameters", "is_instance": True},
+        {"name": "CAE_Annotation_Pipe Accessory_Number", "group": "CAE Annotation Parameters", "is_instance": True},
+        {"name": "CAE_Annotation_Pipe Accessory_Type", "group": "CAE Annotation Parameters", "is_instance": False}
+    ]
     
     # Handle Group Type based on Revit version
     if RevitINT > 2024:
         from Autodesk.Revit.DB import GroupTypeId
         text_group = GroupTypeId.Text
-        add_specific_family_parameters('CAE Global Parameters', text_group, target_parameters)
     else:
         from Autodesk.Revit.DB import BuiltInParameterGroup
         text_group = BuiltInParameterGroup.PG_TEXT
-        add_specific_family_parameters('CAE Global Parameters', text_group, target_parameters)
+        
+    # Create a lookup for groups in the shared parameter file
+    sp_groups = {g.Name: g for g in spFile.Groups}
+    
+    # Loop through configuration and add each parameter with its specific type/instance setting
+    for item in parameters_to_add:
+        g_name = item["group"]
+        p_name = item["name"]
+        is_inst = item["is_instance"]
+        
+        if g_name in sp_groups:
+            dG = sp_groups[g_name]
+            for eD in dG.Definitions:
+                if eD.Name == p_name:
+                    existing_param = family_mgr.get_Parameter(eD.Name)
+                    if not existing_param:
+                        # AddParameter(ExternalDefinition, ParameterGroup, isInstance)
+                        family_mgr.AddParameter(eD, text_group, is_inst)
+                    break
     
     t.Commit()
-    forms.alert("Selected shared parameters successfully added to the family as Type parameters!", title="Success")
+    forms.alert("Shared parameters successfully added with mixed Type and Instance settings!", title="Success")
 
 Shared_Params()

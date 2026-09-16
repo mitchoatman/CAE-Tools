@@ -1,50 +1,48 @@
-from Autodesk.Revit.DB import FilteredElementCollector, View, ViewSchedule, ElementId
+from Autodesk.Revit.DB import View
 from Autodesk.Revit.UI import TaskDialog
-import System, os, re
+import System
+import os
+import sys
 
 doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
-app = doc.Application
-
-file_path = doc.PathName
-file_name = System.IO.Path.GetFileNameWithoutExtension(file_path)
 
 folder_name = r"c:\Temp"
-project_name = file_name.replace(" ", "_")
-filepath = os.path.join(folder_name, 'Ribbon_OpenViews_{}.txt'.format(project_name))
 
 def get_id_value(eid):
     try:
-        return eid.Value        # Revit 2026+
+        return eid.Value        # Revit 2024+
     except:
         return eid.IntegerValue # older versions
 
-if os.path.isfile(filepath):
-    with open(filepath, 'r') as file:
-        lines = [line.rstrip() for line in file.readlines()]
+# Use the same project identifier logic as restore
+file_path = doc.PathName
+file_name = System.IO.Path.GetFileNameWithoutExtension(file_path)
 
-    saved_view_ids = [int(re.search(r'\[(\d+)\]', s).group(1))
-                      for s in lines[1][1:-1].split(', ')]
+# If unsaved model, fall back to title
+if not file_name:
+    file_name = doc.Title
 
-    if lines[0] == str(file_name):
-        for saved_id in saved_view_ids:
-            view = doc.GetElement(ElementId(saved_id))
-            if not view or not isinstance(view, View):
-                continue
-            if view.IsTemplate:
-                continue
+open_views = []
+for uiview in uidoc.GetOpenUIViews():
+    view = doc.GetElement(uiview.ViewId)
+    if view and not view.IsTemplate:
+        open_views.append(view)
 
-            # Skip internal schedule views that Revit won't activate
-            if isinstance(view, ViewSchedule):
-                if view.IsInternalKeynoteSchedule or view.IsTitleblockRevisionSchedule:
-                    continue
+if not open_views:
+    TaskDialog.Show("Warning", "There are no open views.")
+    sys.exit()
 
-            try:
-                uidoc.ActiveView = view
-            except Exception as ex:
-                TaskDialog.Show("Restore Views",
-                                "Could not open view '{}'\n{}".format(view.Name, ex))
-    else:
-        TaskDialog.Show("Invalid Views", "Saved views are not from this project")
-else:
-    TaskDialog.Show("Restore Views", "No Saved Views Found")
+if len(open_views) > 10:
+    TaskDialog.Show("Warning", "You have more than ten open views. Opening this many views at once may take some time.")
+
+view_list = [get_id_value(view.Id) for view in open_views]
+
+project_name = file_name.replace(" ", "_")
+filepath = os.path.join(folder_name, "Ribbon_OpenViews_{}.txt".format(project_name))
+
+with open(filepath, 'w') as the_file:
+    the_file.write(str(file_name) + '\n')
+    the_file.write(str(view_list) + '\n')
+
+TaskDialog.Show("Status", "[{}] views have been saved.".format(len(view_list)))

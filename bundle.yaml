@@ -1,6 +1,6 @@
 layout:
-  - CAE-Detailing Tools
-  - CAE-Support Tools
+  - CAE-Tools
+  - CAE-Support
 
 
 highlight: new      # highlight as new

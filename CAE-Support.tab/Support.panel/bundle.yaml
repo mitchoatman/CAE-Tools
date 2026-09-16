@@ -2,6 +2,7 @@ layout:
   - Families
   - Filters
   - WorksetTools
+  - AddFamParam
 
 background:
   title: 'D5D5CD'

@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import Autodesk
 from Autodesk.Revit.DB import Transaction, FabricationConfiguration, FabricationPart, XYZ
 from Autodesk.Revit.UI.Selection import ISelectionFilter, ObjectType
@@ -37,7 +38,7 @@ class CustomISelectionFilter(ISelectionFilter):
 
 def is_cid_2875(element):
     try:
-        return element.ItemCustomId == 2875
+        return element.ItemCustomId in (2875, 875)
     except:
         return False
 
@@ -71,7 +72,7 @@ def vertical_fab(element):
     return False
 
 def is_pipe(element):
-    return element.LookupParameter('Part Pattern Number').AsInteger() in (2041, 866, 40)
+    return element.LookupParameter('Part Pattern Number').AsInteger() == 2041
 
 def get_pipe_direction(entry_xyz, exit_xyz):
     v = exit_xyz.Subtract(entry_xyz)

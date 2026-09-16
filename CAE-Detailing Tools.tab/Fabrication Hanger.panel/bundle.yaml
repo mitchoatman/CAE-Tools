@@ -1,6 +1,7 @@
 layout:
   - PlaceHangers
   - PlaceTrapeze
+  - PlaceDuctHangers
 
 background:
 #  title: 'D5D5CD'
